@@ -1,0 +1,20 @@
+<launch>
+  <!-- velocity_smoother.launch.xml -->
+  <include file="$(find saturnbot_navigation_lino)/launch/velocity_smoother.launch"/>
+  <arg name="base_frame_id"   default="base_footprint"/>
+
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+    <rosparam file="$(find saturnbot_navigation_lino)/param/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find saturnbot_navigation_lino)/param/costmap_common_params.yaml" command="load" ns="local_costmap" />   
+    <rosparam file="$(find saturnbot_navigation_lino)/param/local_costmap_params.yaml" command="load" />   
+    <rosparam file="$(find saturnbot_navigation_lino)/param/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find saturnbot_navigation_lino)/param/base_local_planner_default_params.yaml" command="load" />
+    <rosparam file="$(find saturnbot_navigation_lino)/param/move_base_params.yaml" command="load" />
+    
+    <!-- reset frame_id parameters using user input data -->
+    <param name="global_costmap/robot_base_frame" value="$(arg base_frame_id)"/>
+    <param name="local_costmap/robot_base_frame" value="$(arg base_frame_id)"/>
+    
+    <remap from="cmd_vel" to="navigation_velocity_smoother/raw_cmd_vel"/>
+  </node>
+</launch>

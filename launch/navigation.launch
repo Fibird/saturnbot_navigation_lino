@@ -1,0 +1,15 @@
+<launch>
+  <!-- 3D sensor -->
+  <include file="$(find saturnbot_bringup)/launch/3dsensor.launch"/>
+
+  <!-- Map server -->
+  <arg name="map_file" default="$(env TURTLEBOT_MAP_FILE)"/>
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+
+  <!-- AMCL -->
+  <include file="$(find saturnbot_navigation_lino)/launch/astra_amcl.launch"/>
+
+  <!-- Move base -->
+  <include file="$(find saturnbot_navigation_lino)/launch/move_base.launch"/>
+</launch>
+
